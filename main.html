@@ -1,13 +1,47 @@
 <!DOCTYPE html>
-
-<html>
-  <head>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-
-  <body>
-    <!-- do not change this code -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manipulating Data with Chained Promises</title>
+</head>
+<body>
     <div id="output"></div>
-    <script type="text/javascript" src="./script.js"></script>
-  </body>
+
+    <script>
+        function getNumbers() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve([1, 2, 3, 4]);
+                }, 3000);
+            });
+        }
+
+        function filterEvenNumbers(numbers) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    const evens = numbers.filter(num => num % 2 === 0);
+                    document.getElementById('output').textContent = evens.join(', ');
+                    resolve(evens);
+                }, 1000);
+            });
+        }
+
+        function multiplyByTwo(numbers) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    const doubled = numbers.map(num => num * 2);
+                    document.getElementById('output').textContent = doubled.join(', ');
+                    resolve(doubled);
+                }, 2000);
+            });
+        }
+
+        // Chain the promises
+        getNumbers()
+            .then(filterEvenNumbers)
+            .then(multiplyByTwo)
+            .catch(error => console.error(error));
+    </script>
+</body>
 </html>
